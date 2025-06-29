@@ -1,4 +1,4 @@
-[Logo](https://raw.githubusercontent.com/maksymswag/mouseless/refs/heads/main/app.ico)
+![Logo](https://raw.githubusercontent.com/maksymswag/mouseless/refs/heads/main/app.ico)
 It's a high-performance Windows utility for keyboard-only mouse control. Activate with `CapsLock` to overlay a predictive grid on your screen. Use `WASD` to rapidly navigate the grid, which automatically switches to a fine-grained "nudge" mode for pixel-perfect positioning.
 
 ## How to Use
