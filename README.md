@@ -1,7 +1,7 @@
 <p align="center">
   <img src="app.ico" alt="Logo">
 <br>
-  <em>My awesome project tagline!</em>
+  <em>Mouseless</em>
 </p>
 
 
