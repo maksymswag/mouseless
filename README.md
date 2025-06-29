@@ -1,73 +1,30 @@
-# Mouse Grid Utility
+It's a high-performance Windows utility for keyboard-only mouse control. Activate with `CapsLock` to overlay a predictive grid on your screen. Use `WASD` to rapidly navigate the grid, which automatically switches to a fine-grained "nudge" mode for pixel-perfect positioning.
 
-## Overview
+## How to Use
 
-Mouse Grid is a high-performance, keyboard-driven mouse navigation utility for Windows, written in C#. It allows for rapid, precise mouse pointer positioning without ever touching the mouse.
-
-The application runs silently in the system tray. When activated, it overlays a visual grid on the screen, which the user can navigate with the `WASD` keys to "zoom in" on a target location. After a few zooms, the tool switches to a fine-grained "nudge" mode for pixel-perfect adjustments.
-
-This tool is designed for maximum performance and a "native" feel, using a layered window for its overlay to provide clean, anti-aliased visuals with zero artifacts.
-
-## Features
-
-- **Keyboard-Only Activation**: Trigger the grid with a single press of the `CapsLock` key.
-- **Custom Grid Layout**: A unique layout with top/bottom bars and a split middle section for intuitive navigation.
-- **Real-time Visual Feedback**: A dynamic trail of red lines is drawn from the cursor to predicted target points, following the mouse in real-performance, keyboard-driven mouse navigation utility for Windows, written in C#. It allows for rapid, precise mouse pointer positioning without ever touching the mouse.
-
-The application runs silently in the system tray. When activated, it overlays a visual grid on the screen, which the user can navigate with the `WASD` keys to "zoom in" on a target location. After a few zooms, the tool switches to a fine-grained "nudge" mode for pixel-perfect adjustments.
-
-This tool is designed for maximum performance and a "native" feel, using a layered window for its overlay to provide clean, anti-aliased visuals with zero artifacts.
-
-## Features
-
-- **Keyboard-Only Activation**: Trigger the grid with a single press of the `CapsLock` key.
-- **Custom Grid Layout**: A unique layout with top/bottom bars and a split middle section for intuitive navigation.
-- **Real-time Visual Feedback**: A dynamic trail of red lines is drawn from the cursor to predicted target points, following the mouse in real-time.
-- **Variable Line Thickness**: Lines for the immediate next move are drawn twice as thick, clearly indicating the primary targets.
-- **Line Fading**: Visuals automatically fade to 10% opacity after 100ms of inactivity to be less intrusive.
-- **Multi-Stage Navigation**:
-    1.  **Grid Mode**: Quickly traverse large screen areas.
-    2.  **Nudge Mode**: After 5 grid moves, automatically switch to a mode where `WASD` moves the cursor by 25 pixels for fine adjustments.
-- **Inactivity Timeout**: The grid automatically deactivates after 2 seconds of no input to prevent it from staying active unintentionally.
-- **System Tray Integration**: The application runs in the system tray, providing a clean "Exit" option.
-- **Highly Optimized**: Uses a layered window for perfect transparency and a high-frequency timer for smooth, low-latency visuals without unnecessary CPU usage.
-
----
-
-## User Guide
-
-### Installation
-
-1.  Navigate to the build output directory (e.g., `bin/Release/net6.0-windows/`).
-2.  Ensure the following files are in the same folder:
-    *   `MouseGrid.exe`
-    *   `app.ico`
-    *   `cursor.wav`
-3.  Double-click `MouseGrid.exe` to run the application. An icon will appear in your system tray.
-
-### How to Use
-
-The application is controlled entirely by the keyboard once running.
+1.  Run `MouseGrid.exe`. An icon will appear in your system tray.
+2.  Press `CapsLock` to toggle the grid on and off.
 
 | Key(s)           | Action                                                                                                 |
 | ---------------- | ------------------------------------------------------------------------------------------------------ |
 | **`CapsLock`**   | Toggles the Mouse Grid **on** or **off**.                                                              |
-| **`W`**          | **In Grid Mode**: Selects the top region. <br> **In Nudge Mode**: Moves the cursor up 25 pixels.         |
-| **`A`**          | **In Grid Mode**: Selects the left region. <br> **In Nudge Mode**: Moves the cursor left 25 pixels.       |
-| **`S`**          | **In Grid Mode**: Selects the bottom region. <br> **In Nudge Mode**: Moves the cursor down 25 pixels.      |
-| **`D`**          | **In Grid Mode**: Selects the right region. <br> **In Nudge Mode**: Moves the cursor right 25 pixels.    |
-| **`Ctrl` / `Esc`** | Immediately deactivates the grid and returns to normal operation.                                     |
+| **`W / A / S / D`** | **In Grid Mode**: Selects a region. <br> **In Nudge Mode**: Moves the cursor by 25 pixels.          |
+| **`Ctrl` / `Esc`** | Immediately deactivates the grid.                                                                      |
 
-### Exiting the Application
-
-Right-click the Mouse Grid icon in the system tray and select **"Exit"**.
+To quit the application, right-click the tray icon and select **"Exit"**.
 
 ---
 
-## Developer Guide
+## For Developers
 
-### Prerequisites
+### Build
 
--   [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) or newer.
+-   **Prerequisites**: .NET 6 SDK or newer.
+-   **Command**: Run `dotnet build -c Release` in the project's root directory.
 
-### Project Structure
+### How It Works
+
+The application uses three core components for its performance and functionality:
+1.  A **global keyboard hook** (`WH_KEYBOARD_LL`) captures input system-wide.
+2.  The visual overlay is a transparent **layered window** (`WS_EX_LAYERED`), which allows for perfect anti-aliased graphics without artifacts.
+3.  A **high-frequency timer** drives a custom drawing loop, which only redraws the screen when the mouse moves. All graphics objects (`Pen`) are cached to prevent stutter from garbage collection.
